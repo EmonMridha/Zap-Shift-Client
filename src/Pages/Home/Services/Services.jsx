@@ -42,7 +42,8 @@ const servicesData = [
 
 const Services = () => {
     return (
-        <section className="py-16 mt-20 bg-green-100" id="services">
+        <section data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom" className="py-16 mt-20 bg-green-100" id="services">
             <div className="container mx-auto px-4 text-center">
                 {/* Section Header */}
                 <h2 className="text-3xl font-bold mb-4 text-primary">Our Services</h2>

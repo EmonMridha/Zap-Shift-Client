@@ -26,7 +26,8 @@ const featuresData = [
 
 const Features = () => {
     return (
-        <section className="py-16 bg-green-100">
+        <section data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom" className="py-16 bg-green-100">
             <div className="container mx-auto px-4">
                 <h2 className='text-primary text-center text-4xl mb-10 font-extrabold'>Features</h2>
                 <div className="grid md:grid-cols-3 gap-6">
