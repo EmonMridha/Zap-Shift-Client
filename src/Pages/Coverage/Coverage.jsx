@@ -1,12 +1,42 @@
-import React from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import React, { useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
+import { useLoaderData } from 'react-router';
+
+const ChangeCenter = ({ position }) => {
+    const map = useMap();
+    map.setView(position, 10); // zoom level 10
+    return null;
+}
 
 const Coverage = () => {
+    const serviceCenters = useLoaderData();
+    const [search, setSearch] = useState('');
+    const [selectedPosition, setSelectedPosition] = useState(null)
+
+    const handleSearch = () => {
+        const found = serviceCenters.find(center => center.city.toLowerCase() === search.toLowerCase());
+
+        if (found) {
+            setSelectedPosition([found.latitude, found.longitude]);
+        }
+        else {
+            alert('District not found');
+        }
+    }
     return (
         <div className="w-full h-[500px] md:h-[700px] rounded-lg overflow-hidden shadow-lg">
+            {/* Search bar */}
+            <div className='flex gap-2 mb-4'>
+                <input type="text"
+                    placeholder='Search district...'
+                    className='input input-bordered w-full'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)} />
+                    <button onClick={handleSearch} className='btn btn-primary'>Search</button>
+            </div>
             <h1 className='text-4xl font-semibold'>We are available across Bangladesh</h1>
-            <MapContainer 
+            <MapContainer
                 center={[23.6850, 90.3563]} // Where the map starts
                 zoom={7} // initial zoom level, the higher the closer
                 scrollWheelZoom={true} // Allow zooming with mouse wheel
@@ -18,20 +48,19 @@ const Coverage = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' // Emny
                 />
 
+                {/* If searched, move the map */}
+                {selectedPosition && <ChangeCenter position={selectedPosition}/>}
+
                 {/* Pin on the Map */}
-                <Marker position={[23.8103, 90.4125]}> 
-                    <Popup>Dhaka</Popup>
-                </Marker>
-                <Marker position={[23.6,89.8333]}> 
-                    <Popup>Foridpur</Popup>
-                </Marker>
-                <Marker position={[23.9999,90.4203]}> 
-                    <Popup>Gazipur</Popup>
-                </Marker>
-                <Marker position={[23.0052,89.8266]}> 
-                    <Popup>Gopalganj</Popup>
-                </Marker>
-                
+
+                {
+                    serviceCenters.map((center, index) =>
+                        <Marker key={index} position={[center.latitude, center.longitude]}>
+                            <Popup>{center.city}</Popup>
+                        </Marker>
+                    )
+                }
+
 
                 {/* Add more markers for other districts if needed */}
             </MapContainer>
