@@ -1,15 +1,36 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import ProFastLogo from '../ProfastLogo/ProFastLogo';
+import useAuth from '../../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+
+    const { user, logOut } = useAuth();
+    const navigate = useNavigate();
     const navItems = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/coverage'>Coverage</NavLink></li>
+        <li><NavLink to='/sendParcel'>Send Parcel</NavLink></li>
         <li><NavLink to='/about'>About Us</NavLink></li>
     </>
+
+    const handleLogout = () => {
+        // logout function will be here
+        logOut()
+            .then(res => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(err => console.error(err));
+    }
     return (
-        <div  className="navbar bg-base-100 shadow-sm">
+        <div className="navbar bg-base-100 shadow-sm">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -30,9 +51,11 @@ const Navbar = () => {
                     {navItems}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn">Button</a>
-            </div>
+            {
+                user ? <button onClick={handleLogout} className='btn navbar-end btn-secondary'>  Logout</button> : (<div className="navbar-end">
+                    <Link to='/login'><button className='btn bg-green-500'>Login</button></Link>
+                </div>)
+            }
         </div>
     );
 };

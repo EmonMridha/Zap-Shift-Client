@@ -1,13 +1,36 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import useAuth from '../../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm()
-
+    const { signIn } = useAuth();
+    const navigate = useNavigate();
     const onSubmit = data => {
-        console.log(data);
+        signIn(data.email, data.password)
+            .then(res => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Logged in by email and password",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate('/')
+            })
+            .catch(err => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Went wrong during login by email and pass! Please try again",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+
     }
     return (
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">

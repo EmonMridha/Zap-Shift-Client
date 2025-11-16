@@ -25,7 +25,7 @@ const Coverage = () => {
         }
     }
     return (
-        <div className="w-full h-[500px] md:h-[700px] rounded-lg overflow-hidden shadow-lg">
+        <div className="w-full h-[700px] md:h-[700px] rounded-lg overflow-hidden shadow-lg">
             {/* Search bar */}
             <div className='flex gap-2 mb-4'>
                 <input type="text"
@@ -33,7 +33,7 @@ const Coverage = () => {
                     className='input input-bordered w-full'
                     value={search}
                     onChange={(e) => setSearch(e.target.value)} />
-                    <button onClick={handleSearch} className='btn btn-primary'>Search</button>
+                <button onClick={handleSearch} className='btn btn-primary'>Search</button>
             </div>
             <h1 className='text-4xl font-semibold'>We are available across Bangladesh</h1>
             <MapContainer
@@ -49,7 +49,7 @@ const Coverage = () => {
                 />
 
                 {/* If searched, move the map */}
-                {selectedPosition && <ChangeCenter position={selectedPosition}/>}
+                {selectedPosition && <ChangeCenter position={selectedPosition} />}
 
                 {/* Pin on the Map */}
 
