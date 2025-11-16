@@ -6,7 +6,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import Register from "../Pages/Authentication/Register/Register";
 import Coverage from "../Pages/Coverage/Coverage";
 import PrivateRoute from "../routes/PrivateRoute";
-import SendParcle from "../Pages/SendParcel/SendParcle";
+import SendParcel from "../Pages/SendParcel/SendParcle";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/sendParcel',
-                element: <PrivateRoute><SendParcle></SendParcle></PrivateRoute>
+                element: <PrivateRoute><SendParcel></SendParcel></PrivateRoute>
             }
         ]
     },
